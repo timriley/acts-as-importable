@@ -1,3 +1,5 @@
 h1. Acts as Importable
 
+See my article "Importing Legacy Data in Rails":http://openmonkey.com/articles/2009/05/importing-legacy-data-in-rails for an introduction and documentation.
+
 Copyright (c) 2009 Tim Riley, released under the MIT license
