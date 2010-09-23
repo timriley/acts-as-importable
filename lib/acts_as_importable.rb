@@ -59,8 +59,16 @@ module Acts
       def import
         returning to_model do |new_model|
           if new_model
-            new_model.legacy_id     = self.id         if new_model.respond_to?(:"legacy_id=")
             new_model.legacy_class  = self.class.to_s if new_model.respond_to?(:"legacy_class=")
+            
+            if self.class.respond_to(:primary_keys)
+              # The legacy class has composite primary keys
+              self.class.primary_keys.each_with_index do |key, index|
+                new_model.send(:"legacy_id_#{index+1}=", key.to_s) if new_model.respond_to?(:"legacy_id_#{index+1}=")
+              end
+            else
+              new_model.legacy_id = self.id if new_model.respond_to?(:"legacy_id=")
+            end
             
             if !new_model.save
               p new_model.errors
